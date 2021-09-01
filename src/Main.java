@@ -1,5 +1,6 @@
 import java.util.Scanner;
-import classes.*;
+import classes.MyTwitter;
+import classes.RepositorioUsuario;
 import Controllers.MainController;
 
 
@@ -9,10 +10,10 @@ public class Main{
         MyTwitter myTwitter = new MyTwitter(new RepositorioUsuario());
         MainController mainController = new MainController(myTwitter, new Scanner(System.in));
 
-        System.out.println("------------- Bem-vindo(a) ao MyTwitter! -------------");
         int option = 100;
 
         while(option != 0){
+
             option = mainController.menu();
 
             System.out.println();
@@ -52,11 +53,14 @@ public class Main{
                 mainController.desativarConta();
             }
 
+            else if(option == 0)
+                continue;
+
             else {
                 System.out.println("Opção inexistente");
             }
 
-            System.out.println();
+            mainController.limparConsole();
         }
 
         System.out.println("--------------- Tchau, até a próxima! ---------------");

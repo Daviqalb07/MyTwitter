@@ -24,7 +24,9 @@ public class Tweet {
         return this.mensagem;
     }
 
-    // Retorna o Tweet formatado com nome de usuário e mensagem.
+    /* getTweet() -> void
+    *  Imprime o Tweet formatado com nome de usuário e mensagem.
+    * */
     public void getTweet(){
         System.out.println(this.getUsuario());
         System.out.println("    " + this.getMensagem());

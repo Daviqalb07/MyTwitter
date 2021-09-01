@@ -48,11 +48,4 @@ public class RepositorioUsuario implements IRepositorioUsuario{
         this.usuarios.set(index, perfil);
     }
 
-    public void listPerfis(){
-        int i = 1;
-        for(Perfil p : this.usuarios){
-            System.out.println(i + ". " + p.getUsuario() + " / " + ((PessoaFisica)p).getCpf());
-            i++;
-        }
-    }
 }
