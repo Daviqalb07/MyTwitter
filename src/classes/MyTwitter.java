@@ -20,7 +20,7 @@ public class MyTwitter implements ITwitter{
             this.repositorio.cadastrar(perfil);
         }
         catch(UJCException ujc){
-            throw new PEException(ujc.getUsuario());
+            throw new PEException(perfil.getUsuario());
         }
     }
 
@@ -82,8 +82,15 @@ public class MyTwitter implements ITwitter{
         if(!perfil.isAtivo())
             throw new PDException(usuario);
 
-        Vector<Tweet> timeline = perfil.getTimeline();
-        Vector<Perfil> seguidos = perfil.getSeguidos();
+        Vector<Tweet> timeline = new Vector<>(perfil.getTimeline());
+        Vector<String> seguidosUsuarios = new Vector<>(perfil.getSeguidos());
+        Vector<Perfil> seguidos = new Vector<>();
+
+        for(String seguidoUsuario : seguidosUsuarios){
+            seguidos.add(this.repositorio.buscar(seguidoUsuario));
+        }
+
+        seguidos.removeIf(seguido-> !seguido.isAtivo());
 
         for(Perfil p : seguidos){
             timeline.addAll(p.getTimeline());
@@ -106,29 +113,32 @@ public class MyTwitter implements ITwitter{
     }
 
     @Override
-    public void seguir(String seguidor, String seguindo) throws PIException, PDException, SIException {
-        Perfil follower = this.repositorio.buscar(seguidor);
-        Perfil following = this.repositorio.buscar(seguindo);
+    public void seguir(String seguidor, String seguindo) throws PIException, PDException, SIException, JSException {
+        Perfil perfilSeguidor = this.repositorio.buscar(seguidor);
+        Perfil perfilSeguido = this.repositorio.buscar(seguindo);
 
-        if(follower == null)
+        if(perfilSeguidor == null)
             throw new PIException(seguidor);
-        if(following == null)
+        if(perfilSeguido == null)
             throw new PIException(seguindo);
 
-        if(!follower.isAtivo())
+        if(!perfilSeguidor.isAtivo())
             throw new PDException(seguidor);
-        if(!following.isAtivo())
+        if(!perfilSeguido.isAtivo())
             throw new PDException(seguindo);
 
-        if(follower.equals(following))
+        if(perfilSeguidor.equals(perfilSeguido))
             throw new SIException();
 
-        follower.addSeguido(following);
-        following.addSeguidor(follower);
+        if(perfilSeguido.getSeguidores().contains(perfilSeguidor.getUsuario()))
+            throw new JSException(seguidor, seguindo);
+
+        perfilSeguidor.addSeguido(seguindo);
+        perfilSeguido.addSeguidor(seguidor);
 
         try{
-            this.repositorio.atualizar(follower);
-            this.repositorio.atualizar(following);
+            this.repositorio.atualizar(perfilSeguidor);
+            this.repositorio.atualizar(perfilSeguido);
         }
         catch(UNCException unc){
             System.out.println(unc.getMessage());
@@ -141,10 +151,16 @@ public class MyTwitter implements ITwitter{
 
         if(perfil == null)
             throw new PIException(usuario);
+
         if(!perfil.isAtivo())
             throw new PDException(usuario);
 
-        Vector<Perfil> seguidores = perfil.getSeguidores();
+        Vector<String> seguidoresUsuario = new Vector<>(perfil.getSeguidores());
+        Vector<Perfil> seguidores = new Vector<>();
+
+        for(String seguidorUsuario : seguidoresUsuario){
+            seguidores.add(this.repositorio.buscar(seguidorUsuario));
+        }
 
         seguidores.removeIf(seguidor-> !seguidor.isAtivo());
 
@@ -161,7 +177,12 @@ public class MyTwitter implements ITwitter{
         if(!perfil.isAtivo())
             throw new PDException(usuario);
 
-        Vector<Perfil> seguidores = perfil.getSeguidores();
+        Vector<String> seguidoresUsuario = new Vector<>(perfil.getSeguidores());
+        Vector<Perfil> seguidores = new Vector<>();
+
+        for(String seguidorUsuario : seguidoresUsuario){
+            seguidores.add(this.repositorio.buscar(seguidorUsuario));
+        }
 
         seguidores.removeIf(seguidor-> !seguidor.isAtivo());
 
@@ -178,7 +199,12 @@ public class MyTwitter implements ITwitter{
         if(!perfil.isAtivo())
             throw new PDException(usuario);
 
-        Vector<Perfil> seguidos = perfil.getSeguidos();
+        Vector<String> seguidosUsuario = new Vector<>(perfil.getSeguidos());
+        Vector<Perfil> seguidos = new Vector<>();
+
+        for(String seguidoUsuario : seguidosUsuario){
+            seguidos.add(this.repositorio.buscar(seguidoUsuario));
+        }
 
         seguidos.removeIf(seguido-> !seguido.isAtivo());
 

@@ -4,8 +4,8 @@ import java.util.Vector;
 
 public abstract class Perfil {
     private String usuario;
-    private Vector<Perfil> seguidos;
-    private Vector<Perfil> seguidores;
+    private Vector<String> seguidos;
+    private Vector<String> seguidores;
     private Vector<Tweet> timeline;
     private boolean ativo;
 
@@ -17,11 +17,11 @@ public abstract class Perfil {
         this.ativo = true;
     }
 
-    public void addSeguido(Perfil seguido){
+    public void addSeguido(String seguido){
         this.seguidos.add(seguido);
     }
 
-    public void addSeguidor(Perfil seguidor){
+    public void addSeguidor(String seguidor){
         this.seguidores.add(seguidor);
     }
 
@@ -37,11 +37,11 @@ public abstract class Perfil {
         return this.usuario;
     }
 
-    public Vector<Perfil> getSeguidos(){
+    public Vector<String> getSeguidos(){
         return this.seguidos;
     }
 
-    public Vector<Perfil> getSeguidores(){
+    public Vector<String> getSeguidores(){
         return this.seguidores;
     }
 
