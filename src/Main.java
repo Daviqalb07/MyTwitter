@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import classes.MyTwitter;
 import classes.RepositorioUsuario;
-import Controllers.MainController;
+import controllers.MainController;
 
 
 public class Main{

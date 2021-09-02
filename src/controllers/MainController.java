@@ -1,4 +1,4 @@
-package Controllers;
+package controllers;
 
 
 import classes.*;
@@ -24,16 +24,14 @@ public class MainController {
     /* limparConsole() -> void
     * Espera o usuário pressionar Enter e "limpa" o console. */
     public void limparConsole(){
-        try {
-            System.out.println("Pressione Enter para continuar");
-            this.scanner.nextLine();
-            this.scanner.nextLine();
-            for(int i = 0 ; i < 250 ; i++)
-                System.out.println();
-        }
-        catch(Exception exception){
-            System.out.println(exception.getMessage());
-        }
+
+        System.out.println("Pressione Enter para continuar");
+        this.scanner.nextLine();
+        this.scanner.nextLine();
+        for(int i = 0 ; i < 250 ; i++)
+            System.out.println();
+
+
     }
 
     /* menu() -> int
@@ -191,7 +189,7 @@ public class MainController {
         }
     }
 
-    /* timeline() -> void
+    /* tweets() -> void
      *  Recupera os tweets de um perfil e imprime na tela.
      *  Trata as exceções: perfil não existe; perfil existe, mas está desativado.
      * */
